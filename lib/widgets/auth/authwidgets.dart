@@ -5,22 +5,23 @@ class AuthTextField extends StatelessWidget {
   const AuthTextField({
     super.key,
     required TextEditingController usernameController,
-    required this.controllername,
+    required this.controllername, required this.labelText,
   }) : _usernameController = usernameController;
 
   final TextEditingController _usernameController;
   final String controllername;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      width: MediaQuery.of(context).size.width / 1.2,
+     // width: MediaQuery.of(context).size.width / 1.2,
       child: TextField(
         autocorrect: false,
         decoration: InputDecoration(
 
-          //labelText: "hi",
+          labelText: labelText,
           border: OutlineInputBorder(
             borderSide: BorderSide(color: AppPalette.lightSecondary, width: 20),
             borderRadius: BorderRadius.circular(10),

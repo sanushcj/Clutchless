@@ -11,21 +11,24 @@ class HomePage extends StatelessWidget {
     final TextEditingController _usernameController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
 
+    bool changedValue = false;
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
           Container(
+            padding: EdgeInsets.all(50),
             height: double.infinity,
             width: double.infinity,
-          //  decoration: BoxDecoration(
+
+            //  decoration: BoxDecoration(
             //  image: DecorationImage(
-              //  image: AssetImage('assets/auth/dominar_bg.jpg'),
-             //   fit: BoxFit.cover,
-              
+            //  image: AssetImage('assets/auth/dominar_bg.jpg'),
+            //   fit: BoxFit.cover,
             color: Colors.black,
           ),
           Container(
+            padding: EdgeInsets.all(15),
             width: MediaQuery.of(context).size.width / 1.20,
             height: MediaQuery.of(context).size.height / 1.55,
             //  color: AppPalette.primary,
@@ -43,8 +46,9 @@ class HomePage extends StatelessWidget {
                   radius: MediaQuery.of(context).size.height / 25,
                   backgroundImage: AssetImage('assets/core/app_color_icon.png'),
                 ),
+                SizedBox(height: 10),
                 Text(
-                  'Welcome Back',
+                  'Welcome Back!',
                   style: GoogleFonts.getFont(
                     'Roboto',
                     color: AppPalette.lightPrimary,
@@ -66,6 +70,8 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
 
+                SizedBox(height: 10),
+
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,49 +85,182 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment. center,
 
-                  children: [
-                    Divider(color: AppPalette.lightPrimary),
-                    Text(
-                      'OR',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        color: AppPalette.lightPrimary,
-                        fontSize: 15,
+                SizedBox(height: 10),
 
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Divider(),
-                  ],
+                Text(
+                  'OR',
+                  style: GoogleFonts.getFont(
+                    'Roboto',
+                    color: AppPalette.lightPrimary,
+                    fontSize: 15,
+
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                Center(
-                  child: Text(
+
+                Text(
                     'Login',
                     style: GoogleFonts.getFont(
                       'Roboto',
                       color: AppPalette.lightPrimary,
-                      fontSize: 35,
+                      fontSize: 25,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+            
+                SizedBox(height:8),
+
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Email Address",
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      color: AppPalette.lightPrimary,
+                      fontSize: 15,
+
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+
+                AuthTextField(
+                  usernameController: _usernameController,
+                  controllername: 'Username',
+                  labelText: 'enter your email or phone number',
+                ),
+                SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Password",
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      color: AppPalette.lightPrimary,
+                      fontSize: 15,
+
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                AuthTextField(
+                  usernameController: _passwordController,
+                  controllername: 'Password',
+                  labelText: 'your password',
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: changedValue,
+                            onChanged: (value) {
+                              if (value == true) {
+                                print('$value, sss');
+                                value = false;
+                              } else {
+                                value = true;
+                                print(value);
+                              }
+                            },
+                            shape: CircleBorder(),
+                            activeColor: Colors.green, // check mark fill color
+                            checkColor: Colors.white, // tick color
+                          ),
+                          Text(
+                            "remember me",
+                            style: GoogleFonts.getFont(
+                              'Roboto',
+                              color: AppPalette.lightPrimary,
+                              fontSize: 15,
+
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    GestureDetector(
+                      child: Text(
+                        'Forgot Password ?',
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          color: AppPalette.textGrey,
+                          fontSize: 15,
+
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 15),
+
+                Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  height: MediaQuery.of(context).size.height / 23,
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    "Sign in",
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      color: AppPalette.darkPrimary,
+                      fontSize: 15,
+
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
 
-                AuthTextField(
-                  usernameController: _usernameController,
-                  controllername: 'Username',
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 5),
 
-                AuthTextField(
-                  usernameController: _passwordController,
-                  controllername: 'Password',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Dont Have an account",
+                      style: GoogleFonts.getFont(
+                        'Roboto',
+                        color: AppPalette.textGrey,
+                        fontSize: 15,
+
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Sign UP",
+                      style: GoogleFonts.getFont(
+                        'Roboto',
+                        color: AppPalette.lightTertiary,
+                        fontSize: 15,
+
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
