@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moto_hub/themes/pallets.dart';
+import 'package:moto_hub/view/auth/sign_up_page.dart';
 import 'package:moto_hub/widgets/auth/authwidgets.dart';
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key, required String title});
-
+  HomePage({super.key, required String title});
 
   final GlobalKey<FormState> _globalFormKey = GlobalKey();
 
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.all(50),
               height: double.infinity,
               width: double.infinity,
-        
+
               //  decoration: BoxDecoration(
               //  image: DecorationImage(
               //  image: AssetImage('assets/auth/dominar_bg.jpg'),
@@ -47,11 +47,13 @@ class HomePage extends StatelessWidget {
               child: Column(
                 //  crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        
+
                 children: [
                   CircleAvatar(
                     radius: MediaQuery.of(context).size.height / 25,
-                    backgroundImage: AssetImage('assets/core/app_color_icon.png'),
+                    backgroundImage: AssetImage(
+                      'assets/core/app_color_icon.png',
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -60,7 +62,7 @@ class HomePage extends StatelessWidget {
                       'Roboto',
                       color: AppPalette.lightPrimary,
                       fontSize: 20,
-        
+
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w500,
                     ),
@@ -71,14 +73,14 @@ class HomePage extends StatelessWidget {
                       'Roboto',
                       color: AppPalette.textGrey,
                       fontSize: 15,
-        
+
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-        
+
                   SizedBox(height: 10),
-        
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,34 +94,34 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-        
+
                   SizedBox(height: 10),
-        
+
                   Text(
                     'OR',
                     style: GoogleFonts.getFont(
                       'Roboto',
                       color: AppPalette.lightPrimary,
                       fontSize: 15,
-        
+
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-        
+
                   Text(
-                      'Login',
-                      style: GoogleFonts.getFont(
-                        'Roboto',
-                        color: AppPalette.lightPrimary,
-                        fontSize: 25,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    'Login',
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      color: AppPalette.lightPrimary,
+                      fontSize: 25,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.bold,
                     ),
-              
-                  SizedBox(height:8),
-        
+                  ),
+
+                  SizedBox(height: 8),
+
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -128,19 +130,18 @@ class HomePage extends StatelessWidget {
                         'Roboto',
                         color: AppPalette.lightPrimary,
                         fontSize: 15,
-        
+
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
-        
+
                   AuthTextField(
-                  suffixIconP: false,
+                    suffixIconP: false,
                     usernameController: _usernameController,
                     controllername: 'Username',
                     labelText: 'enter your email or phone number',
-                    
                   ),
                   SizedBox(height: 10),
                   Align(
@@ -151,19 +152,19 @@ class HomePage extends StatelessWidget {
                         'Roboto',
                         color: AppPalette.lightPrimary,
                         fontSize: 15,
-        
+
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
                   AuthTextField(
-                   suffixIconP:  true,
+                    suffixIconP: true,
                     usernameController: _passwordController,
                     controllername: 'Password',
                     labelText: 'your password',
                   ),
-        
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -186,7 +187,8 @@ class HomePage extends StatelessWidget {
                                 }
                               },
                               shape: CircleBorder(),
-                              activeColor: Colors.green, // check mark fill color
+                              activeColor:
+                                  Colors.green, // check mark fill color
                               checkColor: Colors.white, // tick color
                             ),
                             Text(
@@ -195,7 +197,7 @@ class HomePage extends StatelessWidget {
                                 'Roboto',
                                 color: AppPalette.lightPrimary,
                                 fontSize: 15,
-        
+
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w300,
                               ),
@@ -203,7 +205,7 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-        
+
                       GestureDetector(
                         child: Text(
                           'Forgot Password ?',
@@ -211,7 +213,7 @@ class HomePage extends StatelessWidget {
                             'Roboto',
                             color: AppPalette.textGrey,
                             fontSize: 15,
-        
+
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w400,
                           ),
@@ -219,13 +221,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-        
+
                   SizedBox(height: 15),
-        
-                  SignInButton(formGlobalKey: _globalFormKey,),
-        
+
+                  SignInButton(formGlobalKey: _globalFormKey),
+
                   SizedBox(height: 5),
-        
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -235,21 +237,31 @@ class HomePage extends StatelessWidget {
                           'Roboto',
                           color: AppPalette.textGrey,
                           fontSize: 15,
-        
+
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text(
-                        "Sign UP",
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          color: AppPalette.lightTertiary,
-                          fontSize: 15,
-        
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpPageOne(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Sign UP",
+                          style: GoogleFonts.getFont(
+                            'Roboto',
+                            color: AppPalette.lightTertiary,
+                            fontSize: 15,
+
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -263,4 +275,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
