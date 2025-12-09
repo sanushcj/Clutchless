@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moto_hub/view/home/homepage.dart';
+import 'package:moto_hub/view/auth/first_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomePage(title: 'Clutchless'),
+      home:  HomePage(title: 'Clutchless'),
     );
   }
 }
