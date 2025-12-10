@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,18 +10,20 @@ import 'package:moto_hub/widgets/auth/authwidgets.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key, required String title});
 
-  final GlobalKey<FormState> _globalFormKey = GlobalKey();
+  final GlobalKey<FormState> _signInglobalFormKey = GlobalKey();
+
+  final TextEditingController usernameController = TextEditingController();
+   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _usernameController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
+   
 
     bool changedValue = false;
     return Scaffold(
       backgroundColor: AppPalette.lightPrimary,
       body: Form(
-        key: _globalFormKey,
+        key: _signInglobalFormKey,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -37,7 +41,7 @@ class LoginPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(15),
               width: MediaQuery.of(context).size.width / 1.20,
-              height: MediaQuery.of(context).size.height / 1.55,
+              height: MediaQuery.of(context).size.height / 1.40,
               //  color: AppPalette.primary,
               decoration: BoxDecoration(
                 color: AppPalette.lightPrimary.withValues(alpha: 0.2),
@@ -138,12 +142,14 @@ class LoginPage extends StatelessWidget {
                   ),
 
                   AuthTextField(
-                    errorMessage: 'Please enter your Email or Phone number',
-                    suffixIconP: false,
-                    usernameController: _usernameController,
-                    controllername: 'Username',
-                    labelText: 'enter your email or phone number',
-                  ),
+                    controller:  usernameController,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Email or Phone number';
+                      } 
+                      return null;
+                    },
+                  onChanged: (value) => log(usernameController.text.trim()),),
                   SizedBox(height: 10),
                   Align(
                     alignment: Alignment.topLeft,
@@ -160,11 +166,18 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   AuthTextField(
-                    errorMessage: 'Please enter your Password',
-                    suffixIconP: true,
-                    usernameController: _passwordController,
-                    controllername: 'Password',
-                    labelText: 'your password',
+                    controller: passwordController,
+                    isPassword: true,
+                   onChanged: (value) => log(passwordController.text.trim()),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
+                    
                   ),
 
                   Row(
@@ -226,7 +239,11 @@ class LoginPage extends StatelessWidget {
 
                   SizedBox(height: 15),
 
-                  SignInButton(formGlobalKey: _globalFormKey),
+                  SignInButton(
+                    formGlobalKey: _signInglobalFormKey,
+                    usernameController: usernameController,
+                    passwordController: passwordController,
+                  ),
 
                   SizedBox(height: 5),
 
@@ -260,7 +277,6 @@ class LoginPage extends StatelessWidget {
                             'Roboto',
                             color: AppPalette.lightTertiary,
                             fontSize: 15,
-
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                           ),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,13 +41,10 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
   }
 
   void _onNextPressed() {
-    if (_signUpFormGlobalKey.currentState!.validate()) {
-      if (kDebugMode) {
-        log("validated");
-      }
+    if (!(_signUpFormGlobalKey.currentState?.validate() ?? false)) {
+      // validation failed -> do not advance
       return;
     }
-
     switch (_step) {
       case 0:
         if (_nameController.text.trim().isEmpty) {
@@ -95,6 +91,11 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
     final pwd = _passwordController.text;
+    if (_signUpFormGlobalKey.currentState!.validate()) {
+      if (kDebugMode) {
+        log("validated");
+      }
+    }
 
     final signupData = SignupModel(name: name, email: email, password: pwd);
 
@@ -114,7 +115,7 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
     switch (_step) {
       case 0:
         return Column(
-          key: const ValueKey('name'),
+          //  key: const ValueKey('name'),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Align(
@@ -130,18 +131,22 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
             ),
             const SizedBox(height: 20),
             AuthTextField(
-              errorMessage : 'Please enter your name',
-        suffixIconP: false,
-              controllername: 'Name',
-              labelText: 'name',
-              usernameController: _nameController,
+              controller: _nameController,
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
+
+              // usernameController: _nameController,
             ),
             const SizedBox(height: 20),
           ],
         );
       case 1:
         return Column(
-          key: const ValueKey('email'),
+          //    key: const ValueKey('email'),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Align(
@@ -157,19 +162,22 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
             ),
             const SizedBox(height: 20),
             AuthTextField(
-              errorMessage: 'Please enter your email',
-              suffixIconP: false,
-              controllername: 'Email',
-              labelText: 'email',
-              usernameController: _emailController,
+              controller: _emailController,
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                } else if (!_isValidEmail(value)) {
+                  return 'Please enter a valid email address';
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 20),
           ],
         );
       case 2:
         return Column(
-        
-          key: const ValueKey('password'),
+          // key: const ValueKey('password'),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Align(
@@ -185,11 +193,16 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
             ),
             const SizedBox(height: 20),
             AuthTextField(
-              errorMessage: 'Password must be at least 6 characters',
-              suffixIconP: false,
-              controllername: 'Password',
-              labelText: 'password',
-              usernameController: _passwordController,
+              controller: _passwordController,
+              isPassword: true,
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                } else if (value.length < 6) {
+                  return 'Password must be at least 6 characters long';
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 20),
           ],
@@ -204,27 +217,27 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
     final buttonWidth = MediaQuery.of(context).size.width / 1.3;
     final buttonHeight = MediaQuery.of(context).size.width / 7;
 
-    return Form(
-      key: _signUpFormGlobalKey,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: AppPalette.lightPrimary,
+      appBar: AppBar(
         backgroundColor: AppPalette.lightPrimary,
-        appBar: AppBar(
-          backgroundColor: AppPalette.lightPrimary,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _onBackPressed,
-            color: AppPalette.textDark,
-          ),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _onBackPressed,
+          color: AppPalette.textDark,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            // center vertically a little higher so content sits nicely above keyboard
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedSwitcher(
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          // center vertically a little higher so content sits nicely above keyboard
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Form(
+              key: _signUpFormGlobalKey,
+              child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 switchInCurve: Curves.easeOut,
                 switchOutCurve: Curves.easeIn,
@@ -240,56 +253,56 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
                 },
                 child: _buildStepContent(),
               ),
-      
-              const SizedBox(height: 10),
-      
-              // small progress indicator
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (i) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                    width: _step == i ? 28 : 12,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: _step == i
-                          ? AppPalette.accentBlue
-                          : Colors.grey.shade300,
-                    ),
-                  );
-                }),
-              ),
-      
-              const SizedBox(height: 18),
-      
-              SizedBox(
-                width: buttonWidth,
-                height: buttonHeight,
-                child: ElevatedButton(
-                  onPressed: _onNextPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppPalette.accentBlue,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 50,
-                      vertical: 15,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // small progress indicator
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (i) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 6),
+                  width: _step == i ? 28 : 12,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: _step == i
+                        ? AppPalette.accentBlue
+                        : Colors.grey.shade300,
                   ),
-                  child: Text(
-                    _step < 2 ? 'next' : 'finish',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppPalette.textLight,
-                    ),
+                );
+              }),
+            ),
+
+            const SizedBox(height: 18),
+
+            SizedBox(
+              width: buttonWidth,
+              height: buttonHeight,
+              child: ElevatedButton(
+                onPressed: _onNextPressed,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppPalette.accentBlue,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 15,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Text(
+                  _step < 2 ? 'next' : 'finish',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppPalette.textLight,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
