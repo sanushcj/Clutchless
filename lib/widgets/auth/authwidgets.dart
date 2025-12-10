@@ -4,17 +4,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:moto_hub/themes/pallets.dart';
 
 class AuthTextField extends StatelessWidget {
-   AuthTextField({
-    super.key, required this.suffixIconP,
+  AuthTextField({
+    super.key,
+    required this.suffixIconP,
     required TextEditingController usernameController,
     required this.controllername,
     required this.labelText,
+    required this.errorMessage,
   }) : _usernameController = usernameController;
 
   final TextEditingController _usernameController;
   final String controllername;
   final String labelText;
-   bool suffixIconP ;
+  final String errorMessage;
+  bool suffixIconP;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,17 @@ class AuthTextField extends StatelessWidget {
       child: TextFormField(
         autocorrect: false,
         validator: (value) {
-          if (value==null ) {
-            return  'Please enter your email';
+          if (value == null) {
+            return 'Please enter your email';
           } else {
-            return suffixIconP ?  'Please enter your Password' : 'Please enter your Email';
+            return suffixIconP
+                ? 'Please enter your Password'
+                : 'Please enter your Email';
           }
         },
         decoration: InputDecoration(
-          suffixIcon: suffixIconP ?   Icon(CupertinoIcons.eye_solid) : null,
-         // suffix: Icons.safety_check ,
+          suffixIcon: suffixIconP ? Icon(CupertinoIcons.eye_solid) : null,
+          // suffix: Icons.safety_check ,
           labelText: labelText,
           border: OutlineInputBorder(
             borderSide: BorderSide(color: AppPalette.lightSecondary, width: 20),
@@ -73,7 +78,7 @@ class GoogleSignInWidget extends StatelessWidget {
 class SignInButton extends StatelessWidget {
   const SignInButton({super.key, required this.formGlobalKey});
 
-final GlobalKey<FormState> formGlobalKey;
+  final GlobalKey<FormState> formGlobalKey;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +114,3 @@ final GlobalKey<FormState> formGlobalKey;
     );
   }
 }
-
-
-
-

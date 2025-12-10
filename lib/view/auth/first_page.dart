@@ -5,8 +5,8 @@ import 'package:moto_hub/themes/pallets.dart';
 import 'package:moto_hub/view/auth/sign_up_page.dart';
 import 'package:moto_hub/widgets/auth/authwidgets.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key, required String title});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key, required String title});
 
   final GlobalKey<FormState> _globalFormKey = GlobalKey();
 
@@ -138,6 +138,7 @@ class HomePage extends StatelessWidget {
                   ),
 
                   AuthTextField(
+                    errorMessage: 'Please enter your Email or Phone number',
                     suffixIconP: false,
                     usernameController: _usernameController,
                     controllername: 'Username',
@@ -159,6 +160,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   AuthTextField(
+                    errorMessage: 'Please enter your Password',
                     suffixIconP: true,
                     usernameController: _passwordController,
                     controllername: 'Password',
