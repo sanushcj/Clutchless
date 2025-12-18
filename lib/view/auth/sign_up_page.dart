@@ -99,7 +99,9 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
 
     final signupData = SignupModel(name: name, email: email, password: pwd);
 
-    print(signupData.toJson());
+    if (kDebugMode) {
+      print(signupData.toJson());
+    }
 
     // dispose();
 
