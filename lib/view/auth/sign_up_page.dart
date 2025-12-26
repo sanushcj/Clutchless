@@ -47,7 +47,7 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
     }
     switch (_step) {
       case 0:
-        if (_nameController.text.trim().isEmpty) {
+        if (_nameController.text.trim().isEmpty && _step == 0 && _nameController.text.trim().length < 3) {
           _showError('Please enter your name');
           return;
         }
@@ -135,7 +135,7 @@ class _SignUpPageOneState extends State<SignUpPageOne> {
             AuthTextField(
               controller: _nameController,
               validator: (String? value) {
-                if (value == null || value.isEmpty) {
+                if (value == null || value.isEmpty || value.trim().length < 3 ) {
                   return 'Please enter your name';
                 }
                 return null;
